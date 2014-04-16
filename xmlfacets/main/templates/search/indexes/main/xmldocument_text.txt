@@ -1,0 +1,3 @@
+{% load display %}
+
+{{ object.contents|as_text }}
