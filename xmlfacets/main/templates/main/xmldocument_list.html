@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>XML Documents</h2>
+    <ul>
+        {% for xmldocument in xmldocument_list %}
+            <li>{{ xmldocument.filename }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

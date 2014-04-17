@@ -9,6 +9,8 @@ sqs = sqs.facet('firsttag')
 # sqs.facet('creator')
 sqs = sqs.facet('languages')
 
+from main.views import XMLDocumentList, XMLFacetedSearchView
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -23,8 +25,11 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('xmlfacets.main.views',
-    url(r'^$', 'index', name='index'),
+#    url(r'^$', 'index', name='index'),
+#    url(r'^$', XMLDocumentList.as_view(), name='index'),
     url(r'^document/(?P<document_id>\d+)/$', 'document', name='document_view'),
-    url(r'^search/$', FacetedSearchView(form_class=FacetedSearchForm, searchqueryset=sqs), name='haystack_search'),
+    url(r'^$', XMLFacetedSearchView(), name='haystack_search2'),
+#    url(r'^search/$', FacetedSearchView(form_class=FacetedSearchForm, searchqueryset=sqs), name='haystack_search'),
+#    url(r'^search/$', 'basic_search', name='haystack_search'),
 )
 
