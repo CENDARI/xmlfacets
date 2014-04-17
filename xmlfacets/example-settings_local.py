@@ -2,23 +2,17 @@
 # Required variables #
 ######################
 
-SECRET_KEY = '0gc4wi0r9jc)i!)4_*$w%f^@t(qjc$iw-5^q19)r^9y)e(b2jb'
+SECRET_KEY = ''
 POSTGRES_DB = {
-    'NAME': 'xmlfacets',
-    'USER': 'xmlfacets',
-    'PASSWORD': 'xmlfacets',
-    'HOST': '127.0.0.1',
-    'PORT': '5432'
+    'NAME': '',
+    'USER': '',
+    'PASSWORD': '',
+    'HOST': '',
+    'PORT': ''
 }
-
 ELASTICSEARCH_ENABLED = True
 ELASTICSEARCH_INDEX_NAME = 'xmlfacets'
 ELASTICSEARCH_URLS = 'http://127.0.0.1:9200'
-# As defined in pyelasticsearch, ELASTICSEARCH_URLS should be:
-#
-# A URL or iterable of URLs of ES nodes. These are full URLs with port numbers,
-# like ``http://elasticsearch.example.com:9200``.
-#
 
 SITE_URL = '127.0.0.1'
 
@@ -26,7 +20,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Jean-Daniel Fekete', 'jdfekete@gmail.com'),
+    ('My Name', 'myemail@gmail.com'),
 )
 MANAGERS = ADMINS
 
@@ -44,7 +38,7 @@ MANAGERS = ADMINS
 
 # Edit STORAGE_PATH to change where uploads, static files, and search indexes
 # will be stored, or change each of the settings individually.
-# STORAGE_PATH = '/home/fekete/src/cendari/cendari-vre/'
+# STORAGE_PATH = ''
 
 # MEDIA_ROOT = ''
 # STATIC_ROOT = ''
@@ -61,4 +55,3 @@ MANAGERS = ADMINS
 # Define locally installed apps here
 LOCAL_APPS = (
 )
-
