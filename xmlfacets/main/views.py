@@ -1,11 +1,13 @@
 from django.views.generic import ListView
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.template import loader, Context
 
 from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import FacetedSearchView
 
+from templatetags.display import as_xml
 
 
 from models import *
@@ -58,3 +60,12 @@ class XMLFacetedSearchView(FacetedSearchView):
 def document(request, document_id):
     xmldocument = get_object_or_404(XMLDocument, pk=document_id)
     return render(request, 'main/xmldocument.html', {'xmldocument': xmldocument})
+
+def download(request, document_id):
+    xmldocument = get_object_or_404(XMLDocument, pk=document_id)
+    filename = xmldocument.filename.rsplit("/")[-1]
+    response = HttpResponse(content_type='text/xml')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+    response.write(as_xml(xmldocument.contents))
+    return response

@@ -31,5 +31,6 @@ urlpatterns += patterns('xmlfacets.main.views',
     url(r'^$', XMLFacetedSearchView(), name='haystack_search2'),
 #    url(r'^search/$', FacetedSearchView(form_class=FacetedSearchForm, searchqueryset=sqs), name='haystack_search'),
 #    url(r'^search/$', 'basic_search', name='haystack_search'),
+    url(r'^download/(?P<document_id>\d+)/$', 'download', name='download_xml'),
 )
 
