@@ -23,6 +23,8 @@ class XMLDocumentList(ListView):
 
 
 sqs = SearchQuerySet()
+sqs = sqs.facet('countries')
+sqs = sqs.facet('themes')
 sqs = sqs.facet('firsttag')
 sqs = sqs.facet('languages')
 

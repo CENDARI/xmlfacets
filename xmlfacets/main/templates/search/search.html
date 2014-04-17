@@ -41,29 +41,51 @@
 
 <!-- Begin faceting. -->
 <div class="leftpanel">
-  <h2>Facets</h2>
+  <h2>Facets (<a href="?q=">reset</a>)</h2>
   <hr>
+  {% if facets.fields.themes %}
+  <dl>
+    <dt>Themes</dd>
+    {% for theme in facets.fields.themes %}
+    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=themes_exact:{{ theme.0|urlencode }}">{{ theme.0 }}</a> ({{ theme.1 }})</dd>
+    {% endfor %}
+  </dl>
+    {% else %}
+    <p>None</p>
+    {% endif %}
+
+  {% if facets.fields.countries %}
+  <dl>
+    <dt>Countries</dd>
+    {% for country in facets.fields.countries %}
+    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=countries_exact:{{ country.0|urlencode }}">{{ country.0 }}</a> ({{ country.1 }})</dd>
+    {% endfor %}
+  </dl>
+    {% else %}
+    <p>None</p>
+    {% endif %}
+
   {% if facets.fields.firsttag %}
   <dl>
     <dt>First Tag</dd>
     {% for firsttag in facets.fields.firsttag %}
     <dd><a href="{{ request.get_full_path }}&amp;selected_facets=firsttag_exact:{{ firsttag.0|urlencode }}">{{ firsttag.0 }}</a> ({{ firsttag.1 }})</dd>
     {% endfor %}
+  </dl>
     {% else %}
     <p>None</p>
     {% endif %}
-  </dl>
 
-  <dl>
     {% if facets.fields.languages %}
+  <dl>
     <dt>Language</dt>
     {% for language in facets.fields.languages %}
     <dd><a href="{{ request.get_full_path }}&amp;selected_facets=languages_exact:{{ language.0|urlencode }}">{{ language.0 }}</a> ({{ language.1 }})</dd>
     {% endfor %}
+  </dl>
     {% else %}
     <p>None</p>
     {% endif %}
-  </dl>
 </div>
     <!-- End faceting -->
 
