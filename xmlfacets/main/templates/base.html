@@ -5,14 +5,14 @@
 
     <title>Cendari XML Facetted Search</title>
     <link rel="shortcut icon" href="/favicon.ico?v=2"/>
-    <style type="text/css" href="{% static "xmlfacets/main/css/base.css" %}"/>
+    <style type="text/css" href="{% static "xmlfacets/main/css/base.css" %}"></style>
     {% block css %}{% endblock %}
     {% block js %}{% endblock %}
   </head>
   {% load display %}
   
   <body>
-    <a href="http://cendari.eu"><img src="{%static "xmlfacets/main/img/cendari_logo.png" %}"alt="Cendari logo"/></a><H1>Cendari XML Faceted Search</h1>
+      <H1><a href="http://cendari.eu"><img src="{%static "xmlfacets/main/img/cendari_logo.png" %}"alt="Cendari logo"/></a>Cendari XML Faceted Search</h1>
     {% block content %}{% endblock %}
   </body>
 </html>

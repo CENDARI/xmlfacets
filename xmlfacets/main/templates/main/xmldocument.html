@@ -3,18 +3,18 @@
 {% load display %}
 
 {% block css %}
-<style type="text/css">
+    <style type="text/css">
 .value {
     font-family: monospace;
     background: #EEE;
 }
-</style>
+     </style>
 {% endblock %}
 
 {% block content %}
 <form method="get" action="/">
   <p>
-    <tr><th><label for="id_q">search:</label></th><td><input id="id_q" name="q" type="text" /></td></tr>
+    <label for="id_q">search:</label><input id="id_q" name="q" type="text" />
     <input type="submit" value="search">
   </p>
 </form>
@@ -22,6 +22,19 @@
     <h2>xml document</h2>
     <hr/>
 
-    <p><label>filename:</label> <span class="value">{{ xmldocument.filename }}</span></p>
+    <table>
+      <tr>
+	<td><label>filename:</label></td>
+	<td><span class="value">{{ xmldocument.filename }}</span></td>
+      </tr>
+      <tr>
+	<td><label>creator:</label></td>
+	<td><span class="value">{{ xmldocument.creator }}</span></td>
+      </tr>
+      <tr>
+	<td><label>created:</label></td>
+	<td><span class="value">{{ xmldocument.created }}</span></td>
+      </tr>
+      </table>
     <textarea class="value" cols="80" rows="40" readonly="true">{{ xmldocument.contents|as_xml }}</textarea>
 {% endblock %}
