@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load display %}
+
+{% block css %}
+<style type="text/css">
+.value {
+    font-family: monospace;
+    background: #EEE;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="get" action="/">
+  <p>
+    <tr><th><label for="id_q">search:</label></th><td><input id="id_q" name="q" type="text" /></td></tr>
+    <input type="submit" value="search">
+  </p>
+</form>
+
+    <h2>xml document</h2>
+    <hr/>
+
+    <p><label>filename:</label> <span class="value">{{ xmldocument.filename }}</span></p>
+    <textarea class="value" cols="80" rows="40" readonly="true">{{ xmldocument.contents|as_xml }}</textarea>
+{% endblock %}

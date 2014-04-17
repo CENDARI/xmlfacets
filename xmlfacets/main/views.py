@@ -1,5 +1,5 @@
 from django.views.generic import ListView
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
 from haystack.forms import FacetedSearchForm
@@ -56,4 +56,5 @@ class XMLFacetedSearchView(FacetedSearchView):
         return extra
 
 def document(request, document_id):
-    return HttpResponse("You're looking at XML Document %s." % document_id)
+    xmldocument = get_object_or_404(XMLDocument, pk=document_id)
+    return render(request, 'main/xmldocument.html', {'xmldocument': xmldocument})
