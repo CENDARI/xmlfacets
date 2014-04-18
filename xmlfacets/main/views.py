@@ -29,6 +29,8 @@ sqs = sqs.facet('countries')
 sqs = sqs.facet('themes')
 sqs = sqs.facet('firsttag')
 sqs = sqs.facet('languages')
+sqs = sqs.facet('creator')
+
 
 class XMLFacetedSearchForm(FacetedSearchForm):
     def no_query_found(self):

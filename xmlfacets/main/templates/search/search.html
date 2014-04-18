@@ -9,6 +9,10 @@
       height: 1%;
   }
 
+  dd {
+      font-size: small;
+  }
+
   .leftpanel {
       float: left;
       padding: 5px;
@@ -81,6 +85,17 @@
     <dt>Language</dt>
     {% for language in facets.fields.languages %}
     <dd><a href="{{ request.get_full_path }}&amp;selected_facets=languages_exact:{{ language.0|urlencode }}">{{ language.0 }}</a> ({{ language.1 }})</dd>
+    {% endfor %}
+  </dl>
+    {% else %}
+    <p>None</p>
+    {% endif %}
+
+  {% if facets.fields.creator %}
+  <dl>
+    <dt>Creator</dd>
+    {% for c in facets.fields.creator %}
+    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=creator_exact:{{ c.0|urlencode }}">{{ c.0 }}</a> ({{ c.1 }})</dd>
     {% endfor %}
   </dl>
     {% else %}
