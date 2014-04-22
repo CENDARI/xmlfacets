@@ -12,7 +12,7 @@
   {% load display %}
   
   <body>
-      <H1><a href="http://cendari.eu"><img src="{%static "xmlfacets/main/img/cendari_logo.png" %}"alt="Cendari logo"/></a>Cendari XML Faceted Search</h1>
+      <H1><a href="{% url "index" %}"><img src="{%static "xmlfacets/main/img/cendari_logo.png" %}"alt="Cendari logo"/></a>Cendari XML Faceted Search</h1>
     {% block content %}{% endblock %}
   </body>
 </html>
