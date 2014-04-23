@@ -61,7 +61,7 @@ def geocode(address,locality=None,country=None,postal_code=None):
     data = urllib.urlopen(url).read()
     ret = json.loads(data)
     if ret['status'] != 'OK':
-        print "Failed for url = %s" % url
+        print "Failed for url = %s with status %s" % (url, ret['status'])
         return None
     results = ret['results'][0]
     geometry = results['geometry']['location']
