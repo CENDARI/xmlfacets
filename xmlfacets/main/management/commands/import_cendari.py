@@ -17,13 +17,19 @@ import re
 def read_cendari(apikey, url):
     request = urllib2.Request(url)
     request.add_header('Authorization', apikey)
-    response = urllib2.urlopen(request)
+    try:
+        response = urllib2.urlopen(request)
+    except urllib2.HTTPError as e:
+        print e
+        return None
     assert response.code == 200
     return response.read()
 
 def read_cendari_json(apikey, data = '/dataspaces'):
     url = "http://134.76.21.222:8081/v1%s" % data
     response = read_cendari(apikey, url)
+    if not response:
+        return response
     response_dict = json.loads(response)
     return response_dict
 
@@ -61,7 +67,10 @@ class Command(NoArgsCommand):
         else:
             raise CommandError("Cannot find archival descriptions")
         while nextPage:
+            print "Accessing page %s" % nextPage.encode('utf-8')
             data = read_cendari_json(apikey, data=nextPage)
+            if data is None:
+                raise CommandError('Invalid nextPage URL %s' % nextPage)
             for label in data['data']:
                 try:
                     self.do_label(label, options)
@@ -95,7 +104,7 @@ class Command(NoArgsCommand):
         dataUrl = entry['dataUrl']
 
         if not options['force_update'] and XMLDocument.objects.filter(filename=filename).filter(last_updated__gte=last_updated):
-            print "Skiping %s" % filename
+            print "Skiping %s" % filename.encode('utf-8')
             return
 
         try:
@@ -128,12 +137,12 @@ class Command(NoArgsCommand):
                        'last_updater': user,
                        'contents': contents })
         if not created:
-            print "Replacing %s" % filename
+            print "Replacing %s" % filename.encode('utf-8')
             document.contents = contents
             document.last_updater = user
             document.last_updated = last_updated
         else:
-            print "Creating  %s" % filename
+            print "Creating  %s" % filename.encode('utf-8')
 
         if 'xml-document' in pis:
             document.schema = pis['xml-document']['href']
@@ -145,4 +154,4 @@ class Command(NoArgsCommand):
         else:
             document.stylesheet = None
         document.save()
-        print filename, "imported"
+        print filename.encode('utf-8'), "imported"
