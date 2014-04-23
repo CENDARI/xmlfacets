@@ -6,6 +6,7 @@ from django.template import loader, Context
 from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import FacetedSearchView
+from haystack.inputs import Raw
 
 from templatetags.display import as_xml
 
@@ -30,6 +31,8 @@ sqs = sqs.facet('themes')
 sqs = sqs.facet('firsttag')
 sqs = sqs.facet('languages')
 sqs = sqs.facet('creator')
+#sqs = sqs.facet('location', precision=3)
+#sqs = sqs.filter(location=Raw('{"aggregations": { "lg": { "geohash_grid": { "field": "location", "precision": 3}}}}'))
 
 
 class XMLFacetedSearchForm(FacetedSearchForm):

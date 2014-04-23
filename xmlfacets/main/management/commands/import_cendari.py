@@ -26,11 +26,15 @@ def read_cendari(apikey, url):
     return response.read()
 
 def read_cendari_json(apikey, data = '/dataspaces'):
-    url = "http://134.76.21.222:8081/v1%s" % data
+    if data.startswith('http:'):
+        url = data
+    else:
+        url = "http://134.76.21.222:8081/v1%s" % data
     response = read_cendari(apikey, url)
     if not response:
         return response
     response_dict = json.loads(response)
+#    pprint.pprint(response_dict)
     return response_dict
 
 class Command(NoArgsCommand):

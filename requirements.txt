@@ -9,5 +9,5 @@ psycopg2==2.5.2
 
 fs==0.5.0
 
-docopt==0.6.1
-ckanapi==3.2
+geopy==0.99
+ipython==0.13.1

@@ -55,3 +55,5 @@ MANAGERS = ADMINS
 # Define locally installed apps here
 LOCAL_APPS = (
 )
+
+GOOGLE_GEOCODE_API_KEY = 'Your GOOGLE API KEY&userIp=Your IP ADRESS'

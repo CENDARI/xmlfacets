@@ -45,9 +45,9 @@ More specifically, for Ubuntu Linux 12.04TLS:
           sudo dpkg -i elasticsearch-1.1.0.deb
           sudo service elasticsearch start
 
-6.    Watchdog (optional)
+7.    Libgeos is required to use geographical positions
 
-           sudo pip install watchdog
+           sudo apt-get install libgeos-dev
 
 7.  Virtual Environment
 
@@ -86,3 +86,7 @@ More specifically, for Ubuntu Linux 12.04TLS:
     Assume all the documents are at directory /SVN-REPOS, to import the all, type:
 
 	   ./import.sh /SVN-REPOS admin
+
+13. Import existing XML documents using the Cendari API
+
+    	   bin/python manage.py import_cendari -a 'CKAN-API-KEY' -u 'username'

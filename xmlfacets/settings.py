@@ -46,7 +46,8 @@ STATICFILES_DIRS = (
 # This is a version 2+ of haystack
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+#        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+       'ENGINE': 'xmlfacets.main.configurable_elasticsearch_backend.ConfigurableElasticsearchSearchEngine', 
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'xmlfacets',
     },

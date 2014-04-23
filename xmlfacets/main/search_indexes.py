@@ -4,7 +4,10 @@
 from haystack.indexes import *
 from django.db.models.fields import FieldDoesNotExist
 from models import XMLDocument
+from utils import geocode
 import json
+
+import pdb
 
 class XMLDocumentIndex(SearchIndex, Indexable):
     text = CharField(document=True, use_template=True)
@@ -16,6 +19,7 @@ class XMLDocumentIndex(SearchIndex, Indexable):
     themes = MultiValueField(faceted=True)
     countries = MultiValueField(faceted=True)
     affiliations = MultiValueField(faceted=True)
+    location = LocationField()
 
     def get_model(self):
         return XMLDocument
@@ -63,3 +67,22 @@ class XMLDocumentIndex(SearchIndex, Indexable):
         affiliations = obj.contents.xpath("//t:affiliation/t:orgName[@type='institution']", namespaces=ns)
         if affiliations:
             return [t.text for t in affiliations]
+
+    def prepare_location(self, obj):
+        url = ''
+        if None in obj.contents.nsmap:
+            url = obj.contents.nsmap[None]
+            ns={'t': url}
+            locations = obj.contents.xpath("//t:desc/t:location", namespaces=ns)
+        else:
+            locations = obj.contents.xpath("//desc/location")
+#        pdb.set_trace()
+        if locations:
+            l = locations[0]
+            address = ' '.join([e.text or '' for e in l.iter()])
+
+            loc = geocode(address)
+
+            if loc:
+                return "%s,%s" % (loc[0], loc[1])
+        return None
