@@ -77,8 +77,8 @@ class Command(NoArgsCommand):
             data = read_cendari_json(apikey, data=nextPage)
             if data is None:
                 raise CommandError('Invalid nextPage URL %s' % nextPage)
-                if 'data' not in data:
-                    break
+            if 'data' not in data:
+                break
             for label in data['data']:
                 try:
                     self.do_label(label, options)
