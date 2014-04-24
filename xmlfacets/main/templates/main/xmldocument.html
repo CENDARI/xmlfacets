@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="get" action="/">
+<form method="get" action="{% url 'index' %}">
   <p>
     <label for="id_q">search:</label><input id="id_q" name="q" type="text" />
     <input type="submit" value="search">
