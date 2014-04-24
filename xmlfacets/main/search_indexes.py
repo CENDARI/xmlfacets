@@ -19,7 +19,8 @@ class XMLDocumentIndex(SearchIndex, Indexable):
     themes = MultiValueField(faceted=True)
     countries = MultiValueField(faceted=True)
     affiliations = MultiValueField(faceted=True)
-    location = LocationField()
+#Remove from now, takes time and not used yet
+#    location = LocationField()
 
     def get_model(self):
         return XMLDocument

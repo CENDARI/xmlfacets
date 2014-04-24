@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
 from django.core.management.base import NoArgsCommand, CommandError
 from django.utils.encoding import smart_str
 from django.db import transaction
+from django.conf import settings
 from lxml import etree
 from os import path
 from optparse import make_option
@@ -11,6 +13,7 @@ import urllib
 import json
 import pprint
 import datetime
+from io import StringIO
 
 import re
 
@@ -61,8 +64,10 @@ class Command(NoArgsCommand):
                     help='update documents whether or not they have changed'),
     )
     def handle_noargs(self, **options):
-        apikey = options['apikey']
-        data = read_cendari_json(apikey)
+        self.apikey = options['apikey']
+        if not self.apikey:
+            self.apikey = settings.CENDARI_CKAN_API_KEY
+        data = read_cendari_json(self.apikey)
         if 'data' not in data:
             return
         data = data['data']
@@ -73,8 +78,8 @@ class Command(NoArgsCommand):
         else:
             raise CommandError("Cannot find archival descriptions")
         while nextPage:
-            print "Accessing page %s" % nextPage.encode('utf-8')
-            data = read_cendari_json(apikey, data=nextPage)
+            print "Accessing page %s" % nextPage
+            data = read_cendari_json(self.apikey, data=nextPage)
             if data is None:
                 raise CommandError('Invalid nextPage URL %s' % nextPage)
             if 'data' not in data:
@@ -87,8 +92,6 @@ class Command(NoArgsCommand):
             nextPage = data['nextPage']
 
     def do_label(self, entry, options):
-        apikey = options['apikey']
-
         if not 'format' in entry:
             raise CommandError('No format in entry.')
         if entry['format'] != 'xml':
@@ -112,14 +115,17 @@ class Command(NoArgsCommand):
         dataUrl = entry['dataUrl']
 
         if not options['force_update'] and XMLDocument.objects.filter(filename=filename).filter(last_updated__gte=last_updated):
-            print "Skiping %s" % filename.encode('utf-8')
+            print "Skiping %s" % filename
             return
 
         try:
-            xml = read_cendari(apikey, dataUrl)
-            root = etree.fromstring(xml)
+            xml = read_cendari(self.apikey, dataUrl)
+            parser = etree.XMLParser(recover=True)
+            root = etree.parse(xml, parser)
         except etree.LxmlError as e:
             raise CommandError('could not parse %s:\n  %s' % (dataUrl, e))
+        except IOError as e:
+            raise CommandError('could not parse %s:\n  %s' % (dataUrl, e.strerror))
         
         self.handle_xml(filename, last_updated, root, **options)
 
@@ -145,12 +151,12 @@ class Command(NoArgsCommand):
                        'last_updater': user,
                        'contents': contents })
         if not created:
-            print "Replacing %s" % filename.encode('utf-8')
+            print "Replacing %s" % filename
             document.contents = contents
             document.last_updater = user
             document.last_updated = last_updated
         else:
-            print "Creating  %s" % filename.encode('utf-8')
+            print "Creating  %s" % filename
 
         if 'xml-document' in pis:
             document.schema = pis['xml-document']['href']
@@ -162,4 +168,4 @@ class Command(NoArgsCommand):
         else:
             document.stylesheet = None
         document.save()
-        print filename.encode('utf-8'), "imported"
+        print filename, "imported"
