@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
-{% load highlight display %}
+{% load staticfiles highlight display sort %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+<link rel="stylesheet" href="{% static "jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css" %}">
+<link rel="stylesheet" href="{% static "xmlfacets/main/css/facetview.css" %}">
 <style type="text/css">
 
   .container {
@@ -36,6 +39,34 @@
 </style>
 {% endblock %}
 
+{% block js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+<script type="text/javascript" src="{% static "linkify/1.0/jquery.linkify-1.0-min.js" %}"></script>
+<script type="text/javascript" src="{% static "jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js" %}"></script>
+<!--<script type="text/javascript" src="{% static "xmlfacets/main/js/jquery.facetview.js" %}"></script> -->
+
+<script type="text/javascript">
+    var showfiltervals = function(event) {
+	event.preventDefault();
+	if ( $(this).hasClass('facetview_open') ) {
+	    $(this).children('i').removeClass('icon-minus');
+	    $(this).children('i').addClass('icon-plus');
+	    $(this).removeClass('facetview_open');
+	    $('[id="facetview_' + $(this).attr('rel') +'"]').children().find('.facetview_filtervalue').hide();
+	    $(this).siblings('.facetview_filteroptions').hide();
+	} else {
+	    $(this).children('i').removeClass('icon-plus');
+	    $(this).children('i').addClass('icon-minus');
+	    $(this).addClass('facetview_open');
+	    $('[id="facetview_' + $(this).attr('rel') +'"]').children().find('.facetview_filtervalue').show();
+	    $(this).siblings('.facetview_filteroptions').show();
+	}
+    };
+</script>
+
+{% endblock %}
+
 {% block content %}
 <form method="get" action=".">
   <p>
@@ -44,64 +75,47 @@
   </p>
 
 <!-- Begin faceting. -->
-<div class="leftpanel">
+<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters">
+</div>
+
+<div class="leftpanel facetpane">
   <h2>Facets (<a href="?q=">reset</a>)</h2>
   <hr>
-  {% if facets.fields.themes %}
+  {% for facet, values in facets.fields.items|sortiter %}
+  <table id="facetview_{{facet}}" class="facetview_filters table table-bordered table-condensed table-striped" >
+    <tr><td>
+    {% if values %}
+     <a class="facetview_filtershow" title="filter by {{ facet}}" rel="{{facet }}" style="color:#333; font-weight:bold;" href=""><i class="icon-plus"></i> {{ facet|capfirst }} ({{ values|length }})</a>
+    {% else %}
+     <a class="facetview_filtershow facetview_novalues" title="filter by {{ facet}}" rel="{{facet }}" style="color:#999; font-weight:bold;" href=""><i class="icon-plus"></i> {{ facet|capfirst }}</a>
+    {% endif %}
+        <div class="btn-group facetview_filteroptions" style="display:none; margin-top:5px;">
+          <a class="btn btn-small facetview_learnmore" title="click to view search help information" href="#"><b>?</b></a> 
+          <a class="btn btn-small facetview_morefacetvals" title="filter list size" rel="{{facet}}" href="{{facet}}">100</a>
+          <a class="btn btn-small facetview_sort {{facet}}" title="filter value order" href="{{facet}}">Sort</a>
+          <a class="btn btn-small facetview_or" title="select another option from this filter" rel="AND" href="{{ facet }}" style="color:#aaa;">OR</a>
+	</div>
+    </td></tr>
+    {% for value in values %}
+    <tr class="facetview_filtervalue" style="display:none;">
+      <td><a class="facetview_filterchoice" rel="{{ facet }}" href="{{ request.get_full_path }}&amp;selected_facets={{ facet }}_exact:{{ value.0|urlencode }}">{{ value.0 }} ({{ value.1 }})</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% comment %}
   <dl>
-    <dt>Themes</dd>
-    {% for theme in facets.fields.themes %}
-    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=themes_exact:{{ theme.0|urlencode }}">{{ theme.0 }}</a> ({{ theme.1 }})</dd>
+    <dt>{{ facet|capfirst }}</dd>
+    {% for value in values %}
+    <dd><a href="{{ request.get_full_path }}&amp;selected_facets={{ facet }}_exact:{{ value.0|urlencode }}">{{ value.0 }}</a> ({{ value.1 }})</dd>
     {% endfor %}
   </dl>
-    {% else %}
-    <p>None</p>
-    {% endif %}
-
-  {% if facets.fields.countries %}
-  <dl>
-    <dt>Countries</dd>
-    {% for country in facets.fields.countries %}
-    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=countries_exact:{{ country.0|urlencode }}">{{ country.0 }}</a> ({{ country.1 }})</dd>
-    {% endfor %}
-  </dl>
-    {% else %}
-    <p>None</p>
-    {% endif %}
-
-  {% if facets.fields.firsttag %}
-  <dl>
-    <dt>First Tag</dd>
-    {% for firsttag in facets.fields.firsttag %}
-    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=firsttag_exact:{{ firsttag.0|urlencode }}">{{ firsttag.0 }}</a> ({{ firsttag.1 }})</dd>
-    {% endfor %}
-  </dl>
-    {% else %}
-    <p>None</p>
-    {% endif %}
-
-    {% if facets.fields.languages %}
-  <dl>
-    <dt>Language</dt>
-    {% for language in facets.fields.languages %}
-    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=languages_exact:{{ language.0|urlencode }}">{{ language.0 }}</a> ({{ language.1 }})</dd>
-    {% endfor %}
-  </dl>
-    {% else %}
-    <p>None</p>
-    {% endif %}
-
-  {% if facets.fields.creator %}
-  <dl>
-    <dt>Creator</dd>
-    {% for c in facets.fields.creator %}
-    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=creator_exact:{{ c.0|urlencode }}">{{ c.0 }}</a> ({{ c.1 }})</dd>
-    {% endfor %}
-  </dl>
-    {% else %}
-    <p>None</p>
-    {% endif %}
+  {% endcomment %}
+  {% endfor %}
 </div>
+
+<script type="text/javascript">
+    $('.facetview_filtershow').bind('click',showfiltervals);
+</script>
     <!-- End faceting -->
 
 <div class="container">
