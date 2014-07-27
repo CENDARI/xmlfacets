@@ -24,6 +24,7 @@ settings-*.py
 share
 /src
 /static
+/scripts
 uploads
 topic-list.txt
 document-list.txt

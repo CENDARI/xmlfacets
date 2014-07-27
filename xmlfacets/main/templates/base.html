@@ -3,7 +3,7 @@
   <head>
     {% load staticfiles %}
 
-    <title>Cendari XML Facetted Search</title>
+    <title>Cendari Facetted Search</title>
     <link rel="shortcut icon" href="/favicon.ico?v=2"/>
     <style type="text/css" href="{% static "xmlfacets/main/css/base.css" %}"></style>
     {% block css %}{% endblock %}
@@ -12,7 +12,7 @@
   {% load display %}
   
   <body>
-      <H1><a href="{% url "index" %}"><img src="{%static "xmlfacets/main/img/cendari_logo.png" %}"alt="Cendari logo"/></a>Cendari XML Faceted Search</h1>
+      <H1><a href="{% url "index" %}"><img src="{%static "xmlfacets/main/img/cendari_logo.png" %}"alt="Cendari logo"/></a>Cendari Faceted Search</h1>
     {% block content %}{% endblock %}
   </body>
 </html>
