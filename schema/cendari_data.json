@@ -1,0 +1,20 @@
+{
+   "contributor" : { "name" : "John Smith", "email" : "john@smith.com" },
+   "creator" : { "name" : "John Smith", "email" : "john@smith.com" },
+   "date" : "2014-09-14",
+   "format" : "application/pdf",
+   "language" : [ "en", "fr" ],
+   "publisher" : [ "Cendari Project", "INRIA" ],
+   "title" : "Test for Cendari",
+   "uri" : "http://cendari.eu",
+   "application" : "example",
+   "text" : "This is a full text in English, et un autre en français",
+   "length" : 55,
+   "place" : { "name" : "London", "location" : "51.5072, -0.1275" },
+   "event" : [ "Travel", "Seminar" ],
+   "person" : { "name" : "John Smith", "email" : "john@smith.com" },
+   "tag" : [ "Cendari", "Deliverable" ],
+   "org" : "INRIA",
+   "artifact" : "Report",
+   "ref" : "http://www.cendari.eu/public-project-deliverables/D9.1.pdf"
+}
