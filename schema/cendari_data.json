@@ -16,5 +16,6 @@
    "tag" : [ "Cendari", "Deliverable" ],
    "org" : "INRIA",
    "artifact" : "Report",
-   "ref" : "http://www.cendari.eu/public-project-deliverables/D9.1.pdf"
+   "ref" : "http://www.cendari.eu/public-project-deliverables/D9.1.pdf",
+   "groups_allowed": ["inria", "greencadres"]
 }

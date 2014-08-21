@@ -1,0 +1,21 @@
+{
+    "query" : {
+	"match_all" : {}
+    },
+    "filter" : {
+	"or": [
+	    { "and" : [
+		{ "missing": { "field" : "groups_allowed" } },
+		{ "missing": { "field" : "users_allowed" } }
+	    ] },
+	    { "and" : [
+		{ "exists": { "field" : "users_allowed" } },
+		{ "term": { "users_allowed" : "alice" } }
+	    ] },
+	    { "and" : [
+		{ "exists": { "field" : "groups_allowed" } },
+		{ "terms": { "groups_allowed" : ["inria",  "aviz", "greencadres"] } }
+	    ] }
+        ]
+    }
+}

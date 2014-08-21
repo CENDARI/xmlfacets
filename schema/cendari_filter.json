@@ -1,0 +1,17 @@
+{
+    "filter": {
+	"and": {
+	    "filters": [
+		"or": [
+		    { "missing": { "field" : "groups_allowed" } },
+		    { "terms": { "groups_allowed" : ["aviz", "inria", "greencadres"] } }
+		],
+		"or": [
+		    { "missing": { "field" : "users_allowed" } },
+		    { "term": { "users_allowed" : "fekete" } }
+		]
+	    ],
+	    "_cache": true
+	}
+    }
+}

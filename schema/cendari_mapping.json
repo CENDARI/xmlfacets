@@ -105,6 +105,12 @@
             "uri" : {
 		"type" : "string",
 		"index" : "not_analyzed"
+            },
+            "groups_allowed" : {
+		"type" : "string"
+            },
+            "users_allowed" : {
+		"type" : "string"
             }
         }
     }
