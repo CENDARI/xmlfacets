@@ -16,3 +16,8 @@ def as_xml(tree):
     if tree is None:
         return ''
     return mark_safe(etree.tostring(tree))
+
+@register.filter
+def get(obj,field):
+    return obj.get(field)
+

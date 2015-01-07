@@ -10,9 +10,8 @@ POSTGRES_DB = {
     'HOST': '',
     'PORT': ''
 }
-ELASTICSEARCH_ENABLED = True
-ELASTICSEARCH_INDEX_NAME = 'xmlfacets'
-ELASTICSEARCH_URLS = 'http://127.0.0.1:9200'
+ES_URLS = ['http://localhost:9200']
+ES_INDEXES = {'default': 'cendari'}
 
 SITE_URL = '127.0.0.1'
 

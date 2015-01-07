@@ -1,16 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-from haystack.forms import FacetedSearchForm
-from haystack.query import SearchQuerySet
-from haystack.views import FacetedSearchView
-
-sqs = SearchQuerySet()
-sqs = sqs.facet('firsttag')
-# sqs.facet('creator')
-sqs = sqs.facet('languages')
-
-from main.views import XMLDocumentList, XMLFacetedSearchView
-
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -25,10 +14,9 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('xmlfacets.main.views',
-    url(r'^$', XMLFacetedSearchView(), name='index'),
+    url(r'^$', 'index', name='index'),
+    url(r'^search$', 'search', name='index'),
     url(r'^document/(?P<document_id>\d+)/$', 'document', name='document_view'),
     url(r'^download/(?P<document_id>\d+)/$', 'download', name='download_xml'),
-#    url(r'^search/$', FacetedSearchView(form_class=FacetedSearchForm, searchqueryset=sqs), name='haystack_search'),
-#    url(r'^search/$', 'basic_search', name='haystack_search'),
 )
 

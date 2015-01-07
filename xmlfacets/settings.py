@@ -43,17 +43,6 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-# This is a version 2+ of haystack
-HAYSTACK_CONNECTIONS = {
-    'default': {
-#        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-       'ENGINE': 'xmlfacets.main.configurable_elasticsearch_backend.ConfigurableElasticsearchSearchEngine', 
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'xmlfacets',
-    },
-}
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -119,7 +108,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'haystack',
     'xmlfacets.main',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -156,6 +144,9 @@ LOGGING = {
     }
 }
 
+ES_DISABLED = False
+
+
 # Add in local settings
 from settings_local import *
 DATABASES['default'].update(POSTGRES_DB)
@@ -163,3 +154,4 @@ try:
     INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS
 except NameError:
     pass
+

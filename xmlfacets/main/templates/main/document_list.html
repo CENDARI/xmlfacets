@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load staticfiles display %}
+
+{% block content %}
+    <h2>Documents</h2>
+    <ul>
+        {% for document in res.results %}
+            <li><a href="{{ document|get:"_id" }}">{{ document|get:"_id" }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
