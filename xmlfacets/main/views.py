@@ -34,11 +34,22 @@ def search(request,query=None,filter=None,facets=None):
     else:
         filter=''
     q = cendariFacets(q)
+    terms = {}
     if 'selected_facets' in request.GET and request.GET['selected_facets']:
-        (facet,value)=request.GET['selected_facets'].split(':')
-        q = q.filter_raw({'term': {facet: value}})
+        facets=request.GET.getlist('selected_facets');
+        for facet in facets:
+            (facet,value) =facet.split(':')
+            if facet in terms:
+                terms[facet].append(value)
+            else:
+                terms[facet] = [value]
+        and_terms = [{"terms": {key: val}} for (key, val) in terms.items()]
+        if len(and_terms) == 1:
+            q = q.filter_raw(and_terms[0])
+        else:
+            q = q.filter_raw({'and': and_terms})
     res = q.execute()
-    o={'res': res, 'query': query, 'request': request}
+    o={'res': res, 'query': query, 'request': request, 'facets': terms}
     return render(request, 'search/cendarisearch.html', o)
 
 def document(request, document_id):

@@ -63,34 +63,6 @@
 	}
     };
 
-  function getParameterByName(name) {
-      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-      results = regex.exec(location.search);
-      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  }
-
-  var facets = getParameterByName('selected_facets'),
-      selected_facets = {};
-  facets.split(';')
-    .map(function(f) {
-	var kv = f.split(':'),
-	    k = kv.shift(); // side effect on kv
-	selected_facets[k] = kv;
-    });
-
-  function generateFacetParameter() {
-      var ret = "";
-      for (var k in selected_facets) {
-	  if (ret) ret += ";";
-	  ret += k + ":" + v.join(':');
-      }
-  }
-  
-  function isFacetSelected(facet,value) {
-      var v = selected_facets[facet];
-      return v != undefined && v.indexOf(value) >= 0;
-  }
 </script>
 
 {% endblock %}
