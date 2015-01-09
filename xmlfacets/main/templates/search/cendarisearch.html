@@ -64,7 +64,7 @@
     };
 
   function facet_add_value(href, val) {
-      return href + "&" + val;
+      return href + (href.indexOf('?')==-1?"?q=":"")+ "&" + val;
   }
 
   function facet_del_value(href, val) {
@@ -92,7 +92,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="get" action="search">
+<form method="get" action=".">
   <p>
     <input type="text" name="q" value="{{ query }}">
     <input type="submit" value="Search">
@@ -135,14 +135,6 @@
     {% endif %}    
     {% endfor %}
   </table>
-  {% comment %}
-  <dl>
-    <dt>{{ facet|capfirst }}</dd>
-    {% for value in values.terms %}
-    <dd><a href="{{ request.get_full_path }}&amp;selected_facets={{ facet }}:{{ value.term }}">{{ value.term }}</a> ({{ value.count }})</dd>
-    {% endfor %}
-  </dl>
-  {% endcomment %}
   {% endfor %}
 </div>
 

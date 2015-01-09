@@ -10,14 +10,6 @@ from models import *
 
 # Create your views here.
 
-def index(request,filter=None):
-    q=cendariS()
-    if filter:
-        q = q.filter(filter)
-    q = cendariFacets(q)
-    res = q.execute()
-    return render(request, 'main/document_list.html', {'res': res})
-
 def search(request,query=None,filter=None,facets=None):
     q=cendariS()
     if query:
@@ -52,15 +44,15 @@ def search(request,query=None,filter=None,facets=None):
     o={'res': res, 'query': query, 'request': request, 'selected_facets': terms}
     return render(request, 'search/cendarisearch.html', o)
 
-def document(request, document_id):
-    xmldocument = get_object_or_404(XMLDocument, pk=document_id)
-    return render(request, 'main/xmldocument.html', {'xmldocument': xmldocument})
+# def document(request, document_id):
+#     xmldocument = get_object_or_404(XMLDocument, pk=document_id)
+#     return render(request, 'main/xmldocument.html', {'xmldocument': xmldocument})
 
-def download(request, document_id):
-    xmldocument = get_object_or_404(XMLDocument, pk=document_id)
-    filename = xmldocument.filename.rsplit("/")[-1]
-    response = HttpResponse(content_type='text/xml')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+# def download(request, document_id):
+#     xmldocument = get_object_or_404(XMLDocument, pk=document_id)
+#     filename = xmldocument.filename.rsplit("/")[-1]
+#     response = HttpResponse(content_type='text/xml')
+#     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
-    response.write(as_xml(xmldocument.contents))
-    return response
+#     response.write(as_xml(xmldocument.contents))
+#     return response

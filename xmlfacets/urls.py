@@ -14,8 +14,8 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('xmlfacets.main.views',
-    url(r'^$', 'index', name='index'),
-    url(r'^search$', 'search', name='index'),
+#    url(r'^$', 'index', name='index'),
+    url(r'^$', 'search', name='index'),
     url(r'^document/(?P<document_id>\d+)/$', 'document', name='document_view'),
     url(r'^download/(?P<document_id>\d+)/$', 'download', name='download_xml'),
 )
