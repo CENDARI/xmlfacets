@@ -63,6 +63,30 @@
 	}
     };
 
+  function facet_add_value(href, val) {
+      return href + "&" + val;
+  }
+
+  function facet_del_value(href, val) {
+      return href.replace("&"+val,"");
+  }
+
+{% autoescape off %}  
+  function facet_add(event) {
+      event.preventDefault();
+      var url = facet_add_value("{{ request.get_full_path }}",
+				$(this).attr("href"));
+      document.location.assign(url);
+    {{ body }}
+  }
+
+  function facet_del(event) {
+      event.preventDefault();
+      var url = facet_del_value("{{ request.get_full_path }}",
+				$(this).attr("href"));
+      document.location.assign(url);
+  }
+{% endautoescape %}
 </script>
 
 {% endblock %}
@@ -84,7 +108,11 @@
   <table id="facetview_{{facet}}" class="facetview_filters table table-bordered table-condensed table-striped" >
     <tr><td>
     {% if values %}
+      {% if facet in selected_facets %}
+     <a class="facetview_filtershow" title="filter by {{ facet}}" rel="{{facet }}" style="color:#999; font-weight:bold;" href=""><i class="icon-plus"></i> {{ facet|capfirst }} ({{ values.terms|length }})</a>
+      {% else %}
      <a class="facetview_filtershow" title="filter by {{ facet}}" rel="{{facet }}" style="color:#333; font-weight:bold;" href=""><i class="icon-plus"></i> {{ facet|capfirst }} ({{ values.terms|length }})</a>
+      {% endif %}
     {% else %}
      <a class="facetview_filtershow facetview_novalues" title="filter by {{ facet}}" rel="{{facet }}" style="color:#999; font-weight:bold;" href=""><i class="icon-plus"></i> {{ facet|capfirst }}</a>
     {% endif %}
@@ -96,9 +124,15 @@
 	</div>
     </td></tr>
     {% for value in values.terms %}
+    {% if facet in selected_facets and value.term in selected_facets|get:facet %}
     <tr class="facetview_filtervalue" style="display:none;">
-      <td><a class="facetview_filterchoice" rel="{{ facet }}" href="{{ request.get_full_path }}&amp;selected_facets={{ facet }}:{{ value.term }}">{{ value.term }} ({{ value.count }})</a></td>
+      <td><a class="facetview_filterchoice facetview_del" rel="{{ facet }}" href="selected_facets={{ facet }}:{{ value.term }}">{{ value.term }} ({{ value.count }})</a></td>
     </tr>
+    {% else %}
+    <tr class="facetview_filtervalue" style="display:none;">
+      <td><a class="facetview_filterchoice facetview_add" rel="{{ facet }}" href="selected_facets={{ facet }}:{{ value.term }}">{{ value.term }} ({{ value.count }})</a></td>
+    </tr>
+    {% endif %}    
     {% endfor %}
   </table>
   {% comment %}
@@ -113,8 +147,9 @@
 </div>
 
 <script type="text/javascript">
-    $('.facetview_filtershow').bind('click',showfiltervals);
-  
+    $('.facetview_filtershow').click(showfiltervals);
+  $('.facetview_add').click(facet_add);
+  $('.facetview_del').click(facet_del);
 </script>
     <!-- End faceting -->
 

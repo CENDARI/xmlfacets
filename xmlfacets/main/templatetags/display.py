@@ -19,5 +19,6 @@ def as_xml(tree):
 
 @register.filter
 def get(obj,field):
-    return obj.get(field)
-
+    if not field in obj:
+        return None
+    return obj[field]

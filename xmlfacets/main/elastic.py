@@ -28,7 +28,7 @@ def cendariS():
     return S().es(urls=settings.ES_URLS).indexes('cendari').doctypes('document')
 
 def cendariFacets(S,size=10):
-    return S.facet(*CENDARI_FACETS,size=size)
+    return S.facet(*CENDARI_FACETS,size=size,filtered=True)
 
 def cendariTest():
     return cendariFacets(cendariS())

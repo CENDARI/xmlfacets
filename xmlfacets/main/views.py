@@ -49,7 +49,7 @@ def search(request,query=None,filter=None,facets=None):
         else:
             q = q.filter_raw({'and': and_terms})
     res = q.execute()
-    o={'res': res, 'query': query, 'request': request, 'facets': terms}
+    o={'res': res, 'query': query, 'request': request, 'selected_facets': terms}
     return render(request, 'search/cendarisearch.html', o)
 
 def document(request, document_id):
